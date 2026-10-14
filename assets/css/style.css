@@ -291,7 +291,7 @@ footer{background:var(--forest);padding:5rem 0 6.5rem;border-top:1px solid var(-
 .mf figcaption span{font-size:.8rem;opacity:.75}
 
 .band{position:relative;padding:9rem 0;overflow:hidden;text-align:center;isolation:isolate}
-.band-bg{position:absolute;inset:-10%;background-size:cover;background-position:center;filter:blur(3px) saturate(1.2) brightness(.8);z-index:-2;transform:scale(1.05)}
+.band-bg{position:absolute;inset:-10%;background-size:cover;background-position:center;filter:blur(5px) saturate(1.2) brightness(.8);z-index:-2;transform:scale(1.05)}
 .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,20,16,.75),rgba(11,20,16,.35) 40%,rgba(11,20,16,.35) 60%,rgba(11,20,16,.8));z-index:-1}
 .band-in{display:grid;justify-items:center;gap:1.2rem}
 .band h2{font-size:clamp(3rem,9vw,7.5rem);line-height:.95}
