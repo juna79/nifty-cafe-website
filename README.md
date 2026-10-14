@@ -1,19 +1,37 @@
 # Nifty Cafe & Wine Bar website
 
-Static one-page site. `index.html` at the repo root is the **built output** that Netlify serves.
+Static website for Nifty Cafe & Wine Bar, Tigoni, Limuru. Plain HTML, CSS and JavaScript. No framework and no build step.
+
+```
+index.html          page markup and copy (menu items, events, hours, FAQ)
+404.html            not-found page
+robots.txt
+netlify.toml        Netlify config and cache headers
+assets/
+  css/style.css     all styles (colours and fonts are CSS variables at the top)
+  js/main.js        open-now badge, menu filter, gallery, lightbox, booking form
+  images/           site photos and logo
+```
 
 ## Making changes
-1. Edit `src/template.html` (all copy, styles and scripts) or swap photos in `src/photos/`.
-2. Rebuild: `python3 src/build.py` (needs `pip install pillow`). This embeds the photos and rewrites `index.html`.
-3. Commit and push. Netlify redeploys automatically.
+Edit the file, commit, push. Netlify redeploys automatically.
 
-Never edit `index.html` directly, it is overwritten by the build.
+| To change | Edit |
+| --- | --- |
+| Menu items and prices | `index.html`, the `.item` blocks in the `#menu` section |
+| Opening hours | `index.html` (`#hours` table, FAQ, footer) and the `status()` function in `assets/js/main.js` (510 to 1260 minutes = 8:30am to 9pm, day 1 = Monday closed) |
+| Events and Nifty Mornings | `index.html`, the `#mornings` and `#events` sections |
+| Phone / WhatsApp number | `index.html` (`tel:` links) and `PHONE` in `assets/js/main.js` |
+| Colours and fonts | `:root` variables at the top of `assets/css/style.css` |
+| Photos | replace files in `assets/images/` (keep the file names, roughly 520px wide, JPEG) |
+
+To preview locally: `python3 -m http.server 8000` then open http://localhost:8000.
 
 ## Deploy on Netlify
-Import this repo. Build command: none. Publish directory: `.` (already set in `netlify.toml`).
+Import this repo. Build command: none. Publish directory: `.`
 
 ## Things to confirm with Nifty
-- Phone 0115 435 374 is on WhatsApp (the booking form opens WhatsApp). Change `PHONE` near the bottom of the script in `src/template.html`.
-- Menu prices (from a third-party takeaway listing, items are in `src/build.py`) and the Nifty Mornings offers.
+- 0115 435 374 is on WhatsApp (the booking form opens WhatsApp).
+- Menu prices (from a third-party takeaway listing) and the Nifty Mornings offers.
 - Last-Friday karaoke is still running.
-- Replace the Instagram photos in `src/photos/` with originals for a sharper hero and gallery.
+- Swap the Instagram photos for originals for a sharper hero and gallery.
