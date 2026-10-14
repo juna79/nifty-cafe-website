@@ -265,6 +265,7 @@ footer{background:var(--forest);padding:5rem 0 6.5rem;border-top:1px solid var(-
 .js .statement .w.on{opacity:1}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;border-top:1px solid var(--line);padding-top:2rem}
 .stats b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,4.5vw,3.8rem);color:var(--amber);letter-spacing:-.03em;line-height:1}
+.stats .st{font-style:normal;font-family:system-ui,-apple-system,sans-serif;font-size:.5em;margin-left:.2em;vertical-align:.55em;letter-spacing:0}
 .stats span{font-size:.9rem;color:rgba(244,236,219,.65)}
 
 .mornings{background:var(--cream);color:var(--ink)}
