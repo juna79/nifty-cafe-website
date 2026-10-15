@@ -125,5 +125,24 @@
     var msg='Hi Nifty! I would like to book a table.\n\nName: '+name+'\nGuests: '+$('#bg').value+'\nDate: '+d+'\nTime: '+bt.value+(occ?'\nOccasion: '+occ:'')+(note?'\nNotes: '+note:'')+(voucherText()?'\n\n'+voucherText():'')+'\n\nPlease confirm if you have space. Thank you!';
     window.open('https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg),'_blank','noopener');
   });
+  // ---- Event of the week: staff-editable at /admin. Falls back to the default if none is set,
+  // the date has passed, or the request fails (e.g. a plain file preview).
+  (function(){
+    var root=$('#thisweek');if(!root||!window.NiftyEvent)return;
+    function show(ev){
+      var live=ev&&(!ev.date||ev.date>=NiftyEvent.todayNairobi())?ev:null;
+      NiftyEvent.render(root,live);
+    }
+    var book=root.querySelector('[data-tw="book"]');
+    if(book)book.addEventListener('click',function(){
+      var d=book.dataset.date;
+      if(d){$('#bd').value=d;$('#bd').dispatchEvent(new Event('change'))}
+    });
+    fetch('/api/event',{headers:{accept:'application/json'}})
+      .then(function(r){return r.ok?r.json():null})
+      .then(function(data){show(data&&data.event)})
+      .catch(function(){show(null)});
+  })();
+
   $('#yr').textContent=new Date().getFullYear();
 })();

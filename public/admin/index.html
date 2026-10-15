@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Staff · Nifty Cafe &amp; Wine Bar</title>
+<link rel="icon" type="image/jpeg" href="/assets/images/logo-small.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="admin">
+<header class="a-bar">
+  <a class="brand" href="/"><img src="/assets/images/logo-small.jpg" alt="">Nifty <span>Staff</span></a>
+  <div class="a-bar-r">
+    <a class="a-link" href="/" target="_blank" rel="noopener">View website ↗</a>
+    <button class="a-link" id="logout" hidden>Log out</button>
+  </div>
+</header>
+
+<main class="a-wrap">
+
+  <!-- LOGIN -->
+  <section class="a-card a-login" id="login">
+    <h1>Staff <em>login</em></h1>
+    <p>Enter the staff password to update the event of the week.</p>
+    <form id="loginForm" novalidate>
+      <label for="pw">Password</label>
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <p class="a-msg err" id="loginMsg" role="alert" hidden></p>
+      <button class="btn btn-primary" type="submit" id="loginBtn">Log in</button>
+    </form>
+  </section>
+
+  <!-- EDITOR -->
+  <section id="editor" hidden>
+    <h1>Event of the <em>week</em></h1>
+    <p class="a-sub" id="liveStatus">Checking what is live…</p>
+
+    <div class="a-grid">
+      <form class="a-card" id="eventForm" novalidate>
+        <h2>1. This week's poster</h2>
+        <label class="drop" id="drop" for="file">
+          <input id="file" type="file" accept="image/jpeg,image/png,image/webp">
+          <span class="drop-big">Tap to choose a poster</span>
+          <span class="drop-small">or drag and drop. JPEG, PNG or WebP. It is resized automatically.</span>
+        </label>
+        <p class="a-msg" id="imgMsg" hidden></p>
+
+        <h2>2. Extras <small>(all optional)</small></h2>
+        <div class="f"><label for="title">Event name</label><input id="title" maxlength="80" placeholder="Sundown Sessions: Live Acoustic Set"></div>
+        <div class="f2">
+          <div class="f"><label for="date">Event date</label><input id="date" type="date"></div>
+          <div class="f"><label for="time">Time</label><input id="time" maxlength="40" placeholder="From 5pm"></div>
+        </div>
+        <p class="hint">If you add a date, the poster comes down by itself after that day and the usual Saturday Sundown Sessions section returns. Leave the date empty to keep the poster up until you change it.</p>
+        <div class="f"><label for="desc">Short note</label><textarea id="desc" maxlength="300" placeholder="Live music, wine and the view. Booking recommended."></textarea></div>
+
+        <p class="a-msg" id="saveMsg" role="status" hidden></p>
+        <div class="a-actions">
+          <button class="btn btn-primary" type="submit" id="saveBtn">Publish to website</button>
+          <button class="btn btn-ghost" type="button" id="clearBtn">Take poster down</button>
+        </div>
+      </form>
+
+      <aside>
+        <h2 class="a-prev-h">Preview</h2>
+        <div class="a-preview">
+          <section class="thisweek" id="preview" data-fallback='{"title":"Sundown Sessions","kicker":"Every week","when":"Every Saturday · from 5pm","description":"Live acoustic sets, wine in hand, and the hills turning gold.","dow":"Sat","sub":"Every week"}'>
+            <div class="tw">
+              <div class="tw-media"><img data-tw="img" alt="" hidden><div class="tw-block" data-tw="block"><span class="tw-dow" data-tw="dow">Sat</span><span class="tw-sub" data-tw="sub">Every week</span></div></div>
+              <div class="tw-body">
+                <p class="eyebrow" data-tw="kicker">Every week</p>
+                <h2 data-tw="title">Sundown <em>Sessions</em></h2>
+                <p class="tw-when" data-tw="when"></p>
+                <p class="tw-desc" data-tw="desc"></p>
+                <p class="tw-details" data-tw="details" hidden></p>
+                <div class="cta-row"><span class="btn btn-primary" data-tw="book">Book a table</span><span class="btn btn-wa" data-tw="wa">WhatsApp us</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<script src="/assets/js/event-render.js"></script>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
-# Plain static site: no build step. Netlify serves the repo root and uses 404.html automatically.
+# Static site in /public (no build step) plus serverless functions in /netlify/functions.
+# Only /public is served, so source files, package.json and node_modules are never exposed.
 [build]
-  publish = "."
+  publish = "public"
 
 [[headers]]
   for = "/assets/*"
@@ -12,3 +13,14 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Staff-editable event of the week: serverless functions + Netlify Blobs storage (no extra services)
+[functions]
+  directory = "netlify/functions"
+
+# Keep the staff area out of search engines
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"

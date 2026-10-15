@@ -1,0 +1,9 @@
+{
+  "name": "nifty-cafe-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nifty Cafe & Wine Bar website with a staff-editable event of the week",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4"
+  }
+}
