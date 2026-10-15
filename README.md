@@ -32,6 +32,6 @@ Import this repo. Build command: none. Publish directory: `.`
 
 ## Things to confirm with Nifty
 - 0115 435 374 is on WhatsApp (the booking form opens WhatsApp).
-- The menu now comes from Nifty's A3 menu PDF (date unknown). Confirm it is current, and the Nifty Mornings offers (not on the PDF).
+- Menu and prices come from Nifty's A3 menu PDF (confirmed current 2026-10-15). Still to confirm: the Nifty Mornings offers (not on the PDF) and which dishes count as vegetarian (marked from the descriptions).
 - Last-Friday karaoke is still running.
 - Swap the Instagram photos for originals for a sharper hero and gallery.
