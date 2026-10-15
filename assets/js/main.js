@@ -28,12 +28,17 @@
   }
   status();setInterval(status,60000);
 
-  // menu filter
-  var tabs=$$('.tab');
-  tabs.forEach(function(t){t.addEventListener('click',function(){
-    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t)});
-    var f=t.dataset.f;
-    $$('#menuGrid .item').forEach(function(i){i.hidden=!(f==='all'||i.dataset.c===f)});
+  // menu tabs (Food / Drinks / Wine & bar). Without JS all three panels simply show.
+  var tabs=$$('.mtabs .tab'),panels=$$('.mpanel');
+  function showPanel(id){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x.dataset.p===id)});
+    panels.forEach(function(p){p.hidden=p.id!=='mp-'+id});
+  }
+  tabs.forEach(function(t){t.addEventListener('click',function(){showPanel(t.dataset.p)})});
+  showPanel('food');
+  $$('[data-goto]').forEach(function(a){a.addEventListener('click',function(e){
+    e.preventDefault();showPanel(a.dataset.goto);
+    var tb=$('.mtabs');if(tb)tb.scrollIntoView({behavior:'smooth',block:'start'});
   })});
 
   // reveal

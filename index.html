@@ -108,45 +108,248 @@
     <div class="sec-head rv">
       <p class="eyebrow">At the table</p>
       <h2>Good food, <em>honestly made.</em></h2>
-      <p class="lead">Pizzas, burgers, honey sesame chicken and plenty of vegetarian plates. Ask the team for today's pizzas, the wine list and the cocktail menu.</p>
+      <p class="lead">Breakfast until 12pm, then pizzas, burgers and mains from noon. Plus coffee, cocktails, beer and a wine list for every mood.</p>
     </div>
     <div class="mf rv">
-      <figure><img src="assets/images/pizza-table.jpg" alt="Courgette pizza"><figcaption><b>Pizza</b><span>Ask for today's flavours</span></figcaption></figure>
-      <figure><img src="assets/images/burger.jpg" alt="Beef burger and fries"><figcaption><b>The burger</b><span>KSh 850</span></figcaption></figure>
-      <figure><img src="assets/images/fish.jpg" alt="Fish and chips with salad"><figcaption><b>Fish &amp; chips</b><span>Kids' size KSh 600</span></figcaption></figure>
-      <figure><img src="assets/images/brunch-plate.jpg" alt="Brunch plate"><figcaption><b>Brunch</b><span>Tue–Fri from 9am</span></figcaption></figure>
+      <figure><img src="assets/images/pizza-table.jpg" alt="Courgette pizza"><figcaption><b>Pizza</b><span>From KSh 1,050</span></figcaption></figure>
+      <figure><img src="assets/images/burger.jpg" alt="Beef burger and fries"><figcaption><b>Beef burger</b><span>KSh 1,050</span></figcaption></figure>
+      <figure><img src="assets/images/fish.jpg" alt="Steak and fries with salad and pickles"><figcaption><b>Steak n fries</b><span>KSh 1,100</span></figcaption></figure>
+      <figure><img src="assets/images/brunch-plate.jpg" alt="Steak and eggs breakfast plate"><figcaption><b>Steak n eggs</b><span>Breakfast until 12pm</span></figcaption></figure>
     </div>
-    <div class="tabs rv" role="tablist" aria-label="Menu categories">
-      <button class="tab" role="tab" aria-selected="true" data-f="all">Everything</button>
-      <button class="tab" role="tab" aria-selected="false" data-f="bites">Small bites</button>
-      <button class="tab" role="tab" aria-selected="false" data-f="light">Salads &amp; sandwiches</button>
-      <button class="tab" role="tab" aria-selected="false" data-f="mains">Mains</button>
-      <button class="tab" role="tab" aria-selected="false" data-f="kids">Kids</button>
+    <div class="tabs mtabs rv" role="tablist" aria-label="Menu">
+      <button class="tab" role="tab" id="mt-food" aria-selected="true" aria-controls="mp-food" data-p="food">Food</button>
+      <button class="tab" role="tab" id="mt-drinks" aria-selected="false" aria-controls="mp-drinks" data-p="drinks">Drinks</button>
+      <button class="tab" role="tab" id="mt-bar" aria-selected="false" aria-controls="mp-bar" data-p="bar">Wine &amp; bar</button>
     </div>
-    <div class="menu-grid" id="menuGrid">
-      <div class="item" data-c="bites"><h3>Beef samosas</h3><span class="price"><small>KSh</small>500</span><p>4 pieces</p></div>
-      <div class="item" data-c="bites"><h3>Feta samosas<span class="tag">Vegetarian</span></h3><span class="price"><small>KSh</small>600</span><p>4 pieces</p></div>
-      <div class="item" data-c="bites"><h3>Chicken spring rolls</h3><span class="price"><small>KSh</small>600</span></div>
-      <div class="item" data-c="bites"><h3>Nacho chips<span class="tag">Vegetarian</span></h3><span class="price"><small>KSh</small>550</span><p>Guacamole or salsa</p></div>
-      <div class="item" data-c="light"><h3>Halloumi Caesar salad<span class="tag">Vegetarian</span></h3><span class="price"><small>KSh</small>800</span></div>
-      <div class="item" data-c="light"><h3>Chickpea &amp; black bean salad<span class="tag">Vegetarian</span></h3><span class="price"><small>KSh</small>750</span></div>
-      <div class="item" data-c="light"><h3>Caprese sandwich &amp; fries<span class="tag">Vegetarian</span></h3><span class="price"><small>KSh</small>850</span></div>
-      <div class="item" data-c="light"><h3>Grilled pesto chicken panini</h3><span class="price"><small>KSh</small>950</span></div>
-      <div class="item" data-c="mains"><h3>Deep-fried chicken</h3><span class="price"><small>KSh</small>900</span><p>Fries &amp; garden salad</p></div>
-      <div class="item" data-c="mains"><h3>Crispy honey sesame chicken<span class="tag pop">Guest favourite</span></h3><span class="price"><small>KSh</small>1,300</span><p>Rice &amp; Taiwanese cabbage</p></div>
-      <div class="item" data-c="mains"><h3>Beef meatballs</h3><span class="price"><small>KSh</small>1,200</span><p>Marinara sauce</p></div>
-      <div class="item" data-c="mains"><h3>Beef burger</h3><span class="price"><small>KSh</small>850</span></div>
-      <div class="item" data-c="mains"><h3>Coconut &amp; beans curry<span class="tag">Vegetarian</span></h3><span class="price"><small>KSh</small>700</span><p>Chapati or rice</p></div>
-      <div class="item" data-c="kids"><h3>Fish fingers &amp; chips</h3><span class="price"><small>KSh</small>600</span><p>Kids menu</p></div>
-      <div class="item" data-c="kids"><h3>Hotdog on a bun &amp; chips</h3><span class="price"><small>KSh</small>550</span><p>Kids menu</p></div>
-
+    <p class="legend"><span class="tag v">V</span> Vegetarian. Please tell the team about any allergies or dietary needs when you order.</p>
+    <div class="menu-panels" id="menuPanels">
+      <div class="mpanel" id="mp-food" role="tabpanel" aria-labelledby="mt-food">
+        <div class="cats">
+        <section class="cat"><h3>Breakfast</h3><p class="cat-note">Served until 12pm</p>
+          <div class="item"><h4>English breakfast</h4><span class="price"><small>KSh</small>850</span><p>2 slices of bread, 2 eggs made to your liking, baked beans, your choice of sausage or bacon, with a side of fruit salad.</p></div>
+          <div class="item"><h4>Breakfast crepe</h4><span class="price"><small>KSh</small>750</span><p>Your choice of beef or ham, onions, mushrooms, mozzarella cheese, toasted in a panini machine.</p></div>
+          <div class="item"><h4>Waffles<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>750</span><p>Fluffy homemade waffles, served with berries and syrup.</p></div>
+          <div class="item"><h4>Steak n eggs</h4><span class="price"><small>KSh</small>1,100</span><p>Beef medallions cooked to guest preference, 2 eggs made to your liking. Served with salad topped with caramelized nuts.</p></div>
+          <div class="item"><h4>Bacon n cheese supreme burrito</h4><span class="price"><small>KSh</small>1,200</span><p>Bacon and cheese packed omelette spiced and served in a wrap with a side of guacamole.</p></div>
+        </section>
+        <section class="cat"><h3>Bagels</h3>
+          <div class="item"><h4>Breakfast bagel</h4><span class="price"><small>KSh</small>800</span><p>Cheese &amp; chive bagel, toasted and buttered, with a tomato concasse sauce and onion omelette with cheese melted on top. Option of bacon or sausage included.</p></div>
+          <div class="item"><h4>BLT bagel</h4><span class="price"><small>KSh</small>850</span><p>Cheddar jalapeño bagel, topped with whipped cream cheese, bacon, tomato and lettuce.</p></div>
+        </section>
+        <section class="cat"><h3>Meals</h3><p class="cat-note">Served from 12pm</p>
+          <div class="item"><h4>Deep fried chicken</h4><span class="price"><small>KSh</small>1,050</span><p>Served with fries and garden salad.</p></div>
+          <div class="item"><h4>Crispy honey sesame chicken<span class="tag pop">Guest favourite</span></h4><span class="price"><small>KSh</small>1,350</span><p>Buttermilk fried chicken popcorn with a soy, honey, ginger, garlic and sesame glaze. Served with rice and salad topped with nuts.</p></div>
+          <div class="item"><h4>Meatballs with marinara sauce</h4><span class="price"><small>KSh</small>1,300</span><p>Juicy beef meatballs topped with a rich marinara sauce and melted mozzarella. Served with garlic bread and sautéed vegetables.</p></div>
+          <div class="item"><h4>Coconut bean curry<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>800</span><p>Served with your choice of chapati or rice.</p></div>
+          <div class="item"><h4>Coconut fish</h4><span class="price"><small>KSh</small>1,100</span><p>Served with rice and salsa.</p></div>
+          <div class="item"><h4>Steak n fries</h4><span class="price"><small>KSh</small>1,100</span><p>Beef fillet medallions cooked to guest preference. Served with burnt sunrise butter, fries and salad topped with pickles and caramelized nuts.</p></div>
+          <div class="item"><h4>Fish fingers</h4><span class="price"><small>KSh</small>1,050</span><p>Served with fries.</p></div>
+          <div class="item"><h4>Corona brined chicken</h4><span class="price"><small>KSh</small>1,600</span><p>Corona and orange brined chicken breast, dry rubbed and pan fried. Served with garlic sweet potato mash and a side salad.</p></div>
+        </section>
+        <section class="cat"><h3>Sandwiches &amp; burgers</h3>
+          <div class="item"><h4>Piri piri mushroom sandwich<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>1,050</span><p>Baguette sandwich with tomato jam, mozzarella and piri piri mushrooms, grilled in a panini machine. Served with fries.</p></div>
+          <div class="item"><h4>Grilled chicken &amp; pesto panini</h4><span class="price"><small>KSh</small>1,100</span><p>Baguette with grilled chicken, mozzarella and pesto, grilled in a panini machine. Served with fries.</p></div>
+          <div class="item"><h4>Beef burger</h4><span class="price"><small>KSh</small>1,050</span><p>Beef patty cooked to guest liking, topped with cheddar cheese in a brioche bun. Served with fries and side salad.</p></div>
+          <div class="item"><h4>Chicken burger</h4><span class="price"><small>KSh</small>1,200</span><p>Chicken breast breaded and toasted in honey and soy glaze with salad, stuffed in a brioche bun. Served with chips and homemade pickles.</p></div>
+          <div class="item"><h4>Meat lovers sandwich</h4><span class="price"><small>KSh</small>1,300</span><p>Roast beef slivers cooked in chicken gravy, stuffed into a bun. Served with house smoked mayo and fried baby potato salad.</p></div>
+        </section>
+        <section class="cat"><h3>Pizza</h3>
+          <div class="item"><h4>Margarita<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>1,050</span><p>Marinara, mozzarella.</p></div>
+          <div class="item"><h4>BBQ chicken</h4><span class="price"><small>KSh</small>1,400</span><p>Chicken, bell peppers, mozzarella, BBQ sauce.</p></div>
+          <div class="item"><h4>Greek<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>1,150</span><p>Olives, tomatoes, feta, mozzarella, rocket pesto, olive oil.</p></div>
+          <div class="item"><h4>Hawaiian</h4><span class="price"><small>KSh</small>1,350</span><p>Beef or ham, pineapples, mozzarella.</p></div>
+          <div class="item"><h4>Mushroom bianca<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>1,100</span><p>Mushrooms, ricotta, mozzarella.</p></div>
+          <div class="item"><h4>Diavola</h4><span class="price"><small>KSh</small>1,500</span><p>Salami, marinara, mozzarella.</p></div>
+          <div class="item"><h4>Spicy beef</h4><span class="price"><small>KSh</small>1,250</span><p>Spicy minced beef on white sauce, mozzarella.</p></div>
+          <div class="item"><h4>Luise's special</h4><span class="price"><small>KSh</small>1,950</span><p>Marinara, salami, ham, mushroom, mozzarella.</p></div>
+          <div class="item"><h4>Focaccia sheet<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>1,000</span><p>Herb focaccia baked with garlic butter, served with salsa.</p></div>
+        </section>
+        <section class="cat"><h3>Appetizers</h3>
+          <div class="item"><h4>Beef samosas (4 pcs)</h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Feta cheese samosas (4 pcs)<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>650</span></div>
+          <div class="item"><h4>Chicken spring rolls (4 pcs)</h4><span class="price"><small>KSh</small>700</span></div>
+          <div class="item"><h4>Nacho chips with salsa or guacamole<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Falafel (6 pcs)<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>650</span><p>Served with a tahini sauce.</p></div>
+          <div class="item"><h4>Masala chips<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>500</span></div>
+          <div class="item"><h4>Mozzarella sticks<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>750</span></div>
+        </section>
+        <section class="cat"><h3>Wings</h3><p class="cat-note">Flavours: Honey sesame · Garlic parmesan · Lemon pepper · Salt &amp; vinegar · Buffalo · BBQ</p>
+          <div class="item"><h4>5 pieces</h4><span class="price"><small>KSh</small>700</span></div>
+          <div class="item"><h4>10 pieces</h4><span class="price"><small>KSh</small>1,300</span></div>
+        </section>
+        <section class="cat"><h3>Salads</h3>
+          <div class="item"><h4>Caesar salad</h4><span class="price"><small>KSh</small>900</span><p>Lettuce, croutons, your choice of grilled chicken or haloumi, topped with parmesan cheese.</p></div>
+          <div class="item"><h4>Chickpea &amp; black bean salad<span class="tag v" title="Vegetarian">V</span></h4><span class="price"><small>KSh</small>750</span><p>Black beans, chickpeas, cherry tomatoes, onion, topped with crumbled feta cheese.</p></div>
+        </section>
+        <section class="cat"><h3>Kids' menu</h3>
+          <div class="item"><h4>Loaded hotdog with fries</h4><span class="price"><small>KSh</small>850</span></div>
+          <div class="item"><h4>Hotdog on a bun and chips</h4><span class="price"><small>KSh</small>650</span></div>
+          <div class="item"><h4>Spaghetti and meatballs</h4><span class="price"><small>KSh</small>700</span></div>
+          <div class="item"><h4>Chicken nuggets and chips</h4><span class="price"><small>KSh</small>1,050</span></div>
+        </section>
+        <section class="cat"><h3>Desserts</h3>
+          <div class="item"><h4>Peanut butter banana chocolate chip crepe</h4><span class="price"><small>KSh</small>700</span><p>Folded and grilled in a panini machine. Served with a scoop of vanilla ice cream.</p></div>
+          <div class="item"><h4>Coconut doughnut</h4><span class="price"><small>KSh</small>1,100</span><p>Coconut chocolate cream stuffed doughnut glazed with blueberry glaze.</p></div>
+          <div class="item"><h4>Chocolate brownie</h4><span class="price"><small>KSh</small>850</span><p>Served with 2 scoops of ice cream.</p></div>
+          <div class="item"><h4>Banana bread slice</h4><span class="price"><small>KSh</small>350</span></div>
+        </section>
+        </div>
+      </div>
+      <div class="mpanel" id="mp-drinks" role="tabpanel" aria-labelledby="mt-drinks">
+        <div class="cats">
+        <section class="cat"><h3>Coffee</h3><p class="cat-note">Coffee flavours available at an extra cost: caramel, vanilla, peppermint, strawberry</p>
+          <div class="item"><h4>Espresso</h4><span class="price multi"><span><small>single</small>200</span><span><small>double</small>300</span></span></div>
+          <div class="item"><h4>Cappuccino</h4><span class="price multi"><span><small>single</small>280</span><span><small>double</small>350</span></span></div>
+          <div class="item"><h4>Americano</h4><span class="price multi"><span><small>single</small>230</span><span><small>double</small>300</span></span></div>
+          <div class="item"><h4>Latte</h4><span class="price multi"><span><small>single</small>300</span><span><small>double</small>400</span></span></div>
+          <div class="item"><h4>Mocha</h4><span class="price multi"><span><small>single</small>320</span><span><small>double</small>400</span></span></div>
+          <div class="item"><h4>Macchiato</h4><span class="price multi"><span><small>single</small>230</span><span><small>double</small>300</span></span></div>
+          <div class="item"><h4>Flat white</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Babyccino</h4><span class="price"><small>KSh</small>250</span></div>
+          <div class="item"><h4>Hot chocolate</h4><span class="price"><small>KSh</small>250</span></div>
+        </section>
+        <section class="cat"><h3>Iced coffee</h3>
+          <div class="item"><h4>Iced cappuccino</h4><span class="price"><small>KSh</small>380</span></div>
+          <div class="item"><h4>Iced americano</h4><span class="price"><small>KSh</small>320</span></div>
+          <div class="item"><h4>Iced latte</h4><span class="price"><small>KSh</small>420</span></div>
+          <div class="item"><h4>Iced mocha</h4><span class="price"><small>KSh</small>420</span></div>
+        </section>
+        <section class="cat"><h3>Tea</h3>
+          <div class="item"><h4>Kenyan tea</h4><span class="price"><small>KSh</small>250</span></div>
+          <div class="item"><h4>Masala tea</h4><span class="price"><small>KSh</small>300</span></div>
+          <div class="item"><h4>Black tea</h4><span class="price"><small>KSh</small>200</span></div>
+          <div class="item"><h4>Ginger dawa</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Iced tea</h4><span class="price"><small>KSh</small>400</span><p>Passion, mango or lemonade.</p></div>
+        </section>
+        <section class="cat"><h3>Fresh juice</h3>
+          <div class="item"><h4>Passion</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Pineapple mint</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Orange</h4><span class="price"><small>KSh</small>450</span></div>
+          <div class="item"><h4>Lemonade</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Strawberry lemonade</h4><span class="price"><small>KSh</small>450</span></div>
+          <div class="item"><h4>Mango &amp; ginger</h4><span class="price"><small>KSh</small>400</span></div>
+        </section>
+        <section class="cat"><h3>Milkshakes</h3>
+          <div class="item"><h4>Vanilla</h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Chocolate</h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Strawberry</h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Oreo</h4><span class="price"><small>KSh</small>650</span></div>
+        </section>
+        <section class="cat"><h3>Smoothies</h3>
+          <div class="item"><h4>Berry power</h4><span class="price"><small>KSh</small>750</span><p>Raspberry, strawberry, blueberry, vanilla yogurt and chia seeds.</p></div>
+          <div class="item"><h4>Go green</h4><span class="price"><small>KSh</small>650</span><p>Avocado, milk, yogurt, honey, baobab fruit powder.</p></div>
+          <div class="item"><h4>Banana choco</h4><span class="price"><small>KSh</small>650</span><p>Banana, peanut butter, milk and chocolate sauce.</p></div>
+        </section>
+        <section class="cat"><h3>Water &amp; soda</h3>
+          <div class="item"><h4>Sparkling water</h4><span class="price multi"><span><small>330ml</small>150</span><span><small>750ml</small>250</span></span></div>
+          <div class="item"><h4>Still water</h4><span class="price multi"><span><small>330ml</small>120</span><span><small>750ml</small>220</span></span></div>
+          <div class="item"><h4>Soda</h4><span class="price"><small>KSh</small>150</span></div>
+        </section>
+        </div>
+      </div>
+      <div class="mpanel" id="mp-bar" role="tabpanel" aria-labelledby="mt-bar">
+        <div class="cats">
+        <section class="cat"><h3>Red wines</h3>
+          <div class="item"><h4>Dragon's Back Mountain, S. Africa</h4><span class="price multi"><span><small>glass</small>700</span><span><small>bottle</small>3,500</span></span><p>A vibrant, juicy and sweet red wine, full of fresh red berry.</p></div>
+          <div class="item"><h4>Coleccion Privada Malbec, Argentina</h4><span class="price multi"><span><small>glass</small>850</span><span><small>bottle</small>4,100</span></span><p>Intense red colour with aromas of ripe plums and violets, a medium body and round tannins. A very light and fruity finish with good persistence.</p></div>
+          <div class="item"><h4>Trumpeter Cabernet Franc, Argentina</h4><span class="price multi"><span><small>glass</small>850</span><span><small>bottle</small>4,000</span></span><p>Medium to full bodied, balanced notes of berries and hints of vanilla, coffee and chocolate.</p></div>
+          <div class="item"><h4>Bruce Jack Pinotage, S. Africa</h4><span class="price multi"><span><small>glass</small>900</span><span><small>bottle</small>4,200</span></span><p>Medium to full bodied, flavours of black cherry pie with dark chocolate.</p></div>
+          <div class="item"><h4>Hesketh Midday Somewhere Shiraz, Australia</h4><span class="price multi"><span><small>bottle</small>3,600</span></span><p>Medium bodied, bright red fruits of strawberry and raspberry. Creamy, smooth mouthfeel with hints of tobacco and spice.</p></div>
+          <div class="item"><h4>Naturalys Cabernet Sauvignon</h4><span class="price multi"><span><small>bottle</small>3,900</span></span><p>Fruity and concentrated with powerful aromas of black fruits such as blackcurrants and blueberries. Elegant, velvety structure with a finish of pepper and coriander.</p></div>
+          <div class="item"><h4>Hill &amp; Dale Pinotage, S. Africa</h4><span class="price multi"><span><small>bottle</small>3,900</span></span><p>A complex mélange of red fruit flavours, enticing spiciness and earthy nuttiness. Medium to full bodied with a supple juicy softness.</p></div>
+          <div class="item"><h4>Rutini Collection Cabernet Malbec, Argentina</h4><span class="price multi"><span><small>bottle</small>5,300</span></span><p>Medium bodied, notes of plums intermingled with spices reminiscent of vanilla, anise and black pepper.</p></div>
+          <div class="item"><h4>Villa Antinori Chianti Classico, Italy</h4><span class="price multi"><span><small>bottle</small>6,000</span></span><p>Medium bodied, notes of blueberry and blackberry, well balanced with a smooth oaky finish.</p></div>
+        </section>
+        <section class="cat"><h3>White wines</h3>
+          <div class="item"><h4>Dragon's Back Mountain, S. Africa</h4><span class="price multi"><span><small>glass</small>700</span><span><small>bottle</small>3,500</span></span><p>A medium sweet white wine.</p></div>
+          <div class="item"><h4>Bruce Jack Chenin Blanc, S. Africa</h4><span class="price multi"><span><small>glass</small>850</span><span><small>bottle</small>4,100</span></span><p>A good everyday wine, notes of peaches and cream with a hint of vanilla.</p></div>
+          <div class="item"><h4>Clearwater Sauvignon Blanc, New Zealand</h4><span class="price multi"><span><small>glass</small>850</span><span><small>bottle</small>4,000</span></span><p>Very crisp aromatic wine with notes of grapefruit, tropical fruit and cut grass.</p></div>
+          <div class="item"><h4>Yealands Pinot Gris, New Zealand</h4><span class="price multi"><span><small>bottle</small>4,100</span></span><p>Brimming with ripe yellow stone fruit, pear and candied citrus. Perfectly balanced with a refreshing finish.</p></div>
+          <div class="item"><h4>Mudhouse Sauvignon Blanc, New Zealand</h4><span class="price multi"><span><small>bottle</small>4,200</span></span><p>Crisp and refreshing with flavours of grapefruit, peach and pear.</p></div>
+          <div class="item"><h4>Petal and Stem Sauvignon Blanc</h4><span class="price multi"><span><small>bottle</small>4,400</span></span><p>Citrus aromas of lime and grapefruit, fresh herbs, tropical fruits and blackcurrant. Dry, light-to-medium bodied with a zesty, mineral-driven finish.</p></div>
+        </section>
+        <section class="cat"><h3>Rosé wines</h3>
+          <div class="item"><h4>Gérard Bertrand Gris Blanc, France</h4><span class="price multi"><span><small>glass</small>850</span><span><small>bottle</small>4,200</span></span><p>Very pleasing aromas of small red fruits.</p></div>
+          <div class="item"><h4>Naturalys Grenache, France</h4><span class="price multi"><span><small>glass</small>800</span><span><small>bottle</small>4,000</span></span><p>Delicate pale pink in the glass, with aromas of fresh strawberries, raspberries and hints of citrus zest.</p></div>
+          <div class="item"><h4>Degrendel Pinotage Cab Sauv, S. Africa</h4><span class="price multi"><span><small>glass</small>850</span><span><small>bottle</small>4,000</span></span><p>Aromas of pink summer fruits and the taste of crisp citrus.</p></div>
+          <div class="item"><h4>Charles &amp; Charles Rosé, USA</h4><span class="price multi"><span><small>bottle</small>4,400</span></span><p>Notes of bright citrus, wild raspberry and cherry, rose petal and lavender, with a tangy bright finish.</p></div>
+          <div class="item"><h4>Petal and Stem Rosé</h4><span class="price multi"><span><small>bottle</small>4,400</span></span><p>Ripe strawberries, watermelon and rose petals into a palate of juicy red berries, citrus zest and a hint of minerality. Crisp and dry.</p></div>
+        </section>
+        <section class="cat"><h3>Sparkling</h3>
+          <div class="item"><h4>Zonin Prosecco Cuvée 1821 DOC</h4><span class="price multi"><span><small>bottle</small>4,700</span></span><p>Fizzy, light and fresh. Flavours of pear and green apple.</p></div>
+          <div class="item"><h4>Zonin Prosecco Cuvée 1821 DOC (375ml)</h4><span class="price"><small>KSh</small>2,500</span></div>
+        </section>
+        <section class="cat"><h3>Cocktails</h3>
+          <div class="item"><h4>Gin lemonade</h4><span class="price"><small>KSh</small>850</span></div>
+          <div class="item"><h4>Sangria</h4><span class="price"><small>KSh</small>900</span></div>
+          <div class="item"><h4>Mimosa</h4><span class="price"><small>KSh</small>900</span></div>
+          <div class="item"><h4>Vodka tree lemonade</h4><span class="price"><small>KSh</small>850</span></div>
+          <div class="item"><h4>Mojito</h4><span class="price"><small>KSh</small>900</span><p>Classic or passion.</p></div>
+          <div class="item"><h4>Whiskey sour</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Strawberry daiquiri</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Cosmopolitan</h4><span class="price"><small>KSh</small>850</span></div>
+          <div class="item"><h4>Tequila sunrise</h4><span class="price"><small>KSh</small>900</span></div>
+          <div class="item"><h4>Moscow mule</h4><span class="price"><small>KSh</small>900</span></div>
+          <div class="item"><h4>Margarita</h4><span class="price"><small>KSh</small>950</span><p>Classic, raspberry or kiwi.</p></div>
+          <div class="item"><h4>Blueberry smash</h4><span class="price"><small>KSh</small>900</span></div>
+          <div class="item"><h4>Negroni</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Espresso martini</h4><span class="price"><small>KSh</small>1,050</span></div>
+          <div class="item"><h4>Nutty Tella</h4><span class="price"><small>KSh</small>1,050</span></div>
+          <div class="item"><h4>Piña colada</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Aperol spritz</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Hot toddy</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Old fashioned</h4><span class="price"><small>KSh</small>1,000</span></div>
+          <div class="item"><h4>Irish coffee</h4><span class="price"><small>KSh</small>950</span></div>
+          <div class="item"><h4>Long Island iced tea</h4><span class="price"><small>KSh</small>1,100</span></div>
+          <div class="item"><h4>Velvet hammer</h4><span class="price"><small>KSh</small>1,050</span></div>
+          <div class="item"><h4>Mudslide</h4><span class="price"><small>KSh</small>1,050</span></div>
+          <div class="item"><h4>White Russian</h4><span class="price"><small>KSh</small>950</span></div>
+        </section>
+        <section class="cat"><h3>Procera cocktails</h3>
+          <div class="item"><h4>Gimlet</h4><span class="price"><small>KSh</small>1,100</span></div>
+          <div class="item"><h4>Procera GNT</h4><span class="price"><small>KSh</small>1,050</span></div>
+          <div class="item"><h4>Procera Negroni</h4><span class="price"><small>KSh</small>1,100</span></div>
+        </section>
+        <section class="cat"><h3>Beer &amp; cider</h3>
+          <div class="item"><h4>Tusker Malt</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Tusker Lager</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Tusker Lite</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Tusker Cider</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Whitecap</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Balozi</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Whitecap Crisp</h4><span class="price"><small>KSh</small>500</span></div>
+          <div class="item"><h4>Guinness</h4><span class="price"><small>KSh</small>500</span></div>
+          <div class="item"><h4>Capitan</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>Bilashaka IPA</h4><span class="price"><small>KSh</small>400</span></div>
+          <div class="item"><h4>254 Sandtrap</h4><span class="price"><small>KSh</small>500</span></div>
+          <div class="item"><h4>254 Muratatu</h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Heineken</h4><span class="price"><small>KSh</small>550</span></div>
+          <div class="item"><h4>Corona</h4><span class="price"><small>KSh</small>550</span></div>
+        </section>
+        <section class="cat"><h3>Spirits</h3>
+          <div class="item"><h4>Ketel One</h4><span class="price"><small>KSh</small>500</span><p>Vodka</p></div>
+          <div class="item"><h4>Smirnoff Red</h4><span class="price"><small>KSh</small>450</span><p>Vodka</p></div>
+          <div class="item"><h4>Captain Morgan Spice</h4><span class="price"><small>KSh</small>500</span><p>Rum</p></div>
+          <div class="item"><h4>Glenfiddich 18 yrs</h4><span class="price"><small>KSh</small>900</span><p>Whiskey</p></div>
+          <div class="item"><h4>Glenfiddich 12 yrs</h4><span class="price"><small>KSh</small>700</span><p>Whiskey</p></div>
+          <div class="item"><h4>Jameson</h4><span class="price"><small>KSh</small>500</span><p>Whiskey</p></div>
+          <div class="item"><h4>Jack Daniels</h4><span class="price"><small>KSh</small>500</span><p>Whiskey</p></div>
+          <div class="item"><h4>Tanqueray</h4><span class="price"><small>KSh</small>500</span><p>Gin</p></div>
+          <div class="item"><h4>Bombay Sapphire</h4><span class="price"><small>KSh</small>500</span><p>Gin</p></div>
+          <div class="item"><h4>Procera</h4><span class="price"><small>KSh</small>600</span><p>Gin</p></div>
+          <div class="item"><h4>Hendrick's</h4><span class="price"><small>KSh</small>600</span><p>Gin</p></div>
+          <div class="item"><h4>Jose Cuervo</h4><span class="price"><small>KSh</small>500</span><p>Tequila</p></div>
+          <div class="item"><h4>Baileys</h4><span class="price"><small>KSh</small>500</span></div>
+        </section>
+        </div>
+      </div>
     </div>
     <div class="menu-cta">
-      <a class="mc" href="https://www.instagram.com/nifty_ke/" target="_blank" rel="noopener"><div><b>Full cafe menu</b><span>Pizza, drinks and the latest specials, in the Menu highlight on Instagram.</span></div><em>Open on Instagram ↗</em></a>
-      <a class="mc" href="https://www.instagram.com/nifty_ke/" target="_blank" rel="noopener"><div><b>The wine list</b><span>Reds, whites and rosé by the glass or bottle. See the Wine List highlight.</span></div><em>Open on Instagram ↗</em></a>
-      <a class="mc" href="tel:+254115435374"><div><b>Takeaway &amp; delivery</b><span>Call to order. We deliver in Tigoni and surrounding areas.</span></div><em>Call 0115 435 374</em></a>
+      <a class="mc" href="#menu" data-goto="bar"><div><b>The wine list</b><span>22 wines by the glass or bottle: red, white, rosé and sparkling.</span></div><em>See the wines ↓</em></a>
+      <a class="mc" href="tel:+254115435374"><div><b>Takeaway &amp; delivery</b><span>Call or WhatsApp to order. We deliver in Tigoni and surrounding areas.</span></div><em>Call 0115 435 374</em></a>
+      <a class="mc" href="https://www.instagram.com/nifty_ke/" target="_blank" rel="noopener"><div><b>Specials &amp; events</b><span>This week's specials and Sundown Sessions artists are on Instagram.</span></div><em>Follow @nifty_ke ↗</em></a>
     </div>
-    <p class="fineprint">Prices in Kenya shillings, taken from a published takeaway selection. Menu and prices can change, so please confirm availability when you order.</p>
+    <p class="fineprint">Prices in Kenya shillings. Menu and prices may change, so please confirm availability when you order.</p>
   </div>
 </section>
 
@@ -194,7 +397,7 @@
       <button class="gl" data-cap="A better pour"><img src="assets/images/wine-pour.jpg" alt="A better pour" loading="lazy"></button>
       <div class="gq" aria-hidden="true">Good food. Good people. Good vibes.</div>
       <button class="gl" data-cap="Burger &amp; fries"><img src="assets/images/burger.jpg" alt="Burger &amp; fries" loading="lazy"></button>
-      <button class="gl" data-cap="Fish, chips and salad"><img src="assets/images/fish.jpg" alt="Fish, chips and salad" loading="lazy"></button>
+      <button class="gl" data-cap="Steak n fries"><img src="assets/images/fish.jpg" alt="Steak and fries with salad and pickles" loading="lazy"></button>
       <button class="gl" data-cap="Brunch time"><img src="assets/images/brunch-plate.jpg" alt="Brunch time" loading="lazy"></button>
       <div class="gq w" aria-hidden="true"><img src="assets/images/logo.jpg" alt=""></div>
       <button class="gl" data-cap="Room to roam: the kids' play tower"><img src="assets/images/play.jpg" alt="Room to roam: the kids' play tower" loading="lazy"></button>
@@ -286,9 +489,9 @@
       <details><summary>Do I need to book?</summary><p>Walk-ins are welcome, but weekends, sundowners and karaoke nights fill up. Call 0115 435 374 or use the booking form to save a table.</p></details>
       <details><summary>Are you open on Mondays?</summary><p>No, on Mondays we sleep in. We're open Tuesday to Sunday, 8:30am to 9pm.</p></details>
       <details><summary>Do you deliver?</summary><p>Yes. We deliver in Tigoni and surrounding areas. Call 0115 435 374 to place an order.</p></details>
-      <details><summary>Is it good for kids?</summary><p>Very. There's a kids' menu (fish fingers and chips, hotdog and chips) and a wooden play tower with a slide in the grounds.</p></details>
+      <details><summary>Is it good for kids?</summary><p>Very. There's a kids' menu (hotdog and chips, spaghetti and meatballs, chicken nuggets and chips) and a wooden play tower with a slide in the grounds.</p></details>
       <details><summary>Is there live music?</summary><p>Yes. Weekends feature live music, Saturdays are Nifty Sundowners, and the last Friday of the month is karaoke. Check Instagram for the latest performers.</p></details>
-      <details><summary>Are there vegetarian options?</summary><p>Yes, there are plenty of vegetarian dishes, marked on the menu above. Tell the team about any dietary needs when you order.</p></details>
+      <details><summary>Are there vegetarian options?</summary><p>Yes, vegetarian dishes are marked with a V on the menu above. Tell the team about any dietary needs when you order.</p></details>
     </div>
   </div>
 </section>

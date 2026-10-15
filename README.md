@@ -18,7 +18,7 @@ Edit the file, commit, push. Netlify redeploys automatically.
 
 | To change | Edit |
 | --- | --- |
-| Menu items and prices | `index.html`, the `.item` blocks in the `#menu` section |
+| Menu items and prices | `index.html`, the `.item` blocks inside the Food / Drinks / Wine & bar panels of the `#menu` section |
 | Opening hours | `index.html` (`#hours` table, FAQ, footer) and the `status()` function in `assets/js/main.js` (510 to 1260 minutes = 8:30am to 9pm, day 1 = Monday closed) |
 | Events and Nifty Mornings | `index.html`, the `#mornings` and `#events` sections |
 | Phone / WhatsApp number | `index.html` (`tel:` links) and `PHONE` in `assets/js/main.js` |
@@ -32,6 +32,6 @@ Import this repo. Build command: none. Publish directory: `.`
 
 ## Things to confirm with Nifty
 - 0115 435 374 is on WhatsApp (the booking form opens WhatsApp).
-- Menu prices (from a third-party takeaway listing) and the Nifty Mornings offers.
+- The menu now comes from Nifty's A3 menu PDF (date unknown). Confirm it is current, and the Nifty Mornings offers (not on the PDF).
 - Last-Friday karaoke is still running.
 - Swap the Instagram photos for originals for a sharper hero and gallery.
