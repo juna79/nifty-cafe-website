@@ -34,7 +34,7 @@
     if (!d) return;
 
     setTitle(q(root, 'title'), d.title || 'This week at Nifty');
-    q(root, 'kicker').textContent = live ? 'Event of the week' : (d.kicker || 'Every week');
+    q(root, 'kicker').textContent = 'Event of the week';
     var when = live
       ? [d.date ? longDate(d.date) : '', d.time || ''].filter(Boolean).join(' · ')
       : d.when;
