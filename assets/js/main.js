@@ -98,13 +98,23 @@
     var h=Math.floor(m/60),mm=m%60,ap=h>=12?'pm':'am',h12=((h+11)%12)+1,lab=h12+':'+(mm?'30':'00')+ap;
     var o=document.createElement('option');o.textContent=lab;if(lab==='1:00pm')o.selected=true;bt.appendChild(o);
   }
+  var vnote=$('#vnote'),bgSel=$('#bg');
+  // Weekend (Sat/Sun) bookings need a KSh 1,000 per person voucher
+  function voucherText(){
+    if(!bd.value)return '';
+    var d=new Date(bd.value+'T12:00:00').getDay();
+    if(d!==0&&d!==6)return '';
+    var g=bgSel.value,n=parseInt(g,10),total=(g.indexOf('+')===-1&&n)?' (KSh '+(n*1000).toLocaleString('en-KE')+' for '+n+(n===1?' guest':' guests')+')':'';
+    return 'Weekend booking: KSh 1,000 per person voucher'+total+'. Redeemable on your bill, non-refundable.';
+  }
   function chk(){
+    var vt=voucherText();vnote.textContent=vt;vnote.classList.toggle('show',!!vt);
     if(!bd.value){warn.classList.remove('show');return true}
     var d=new Date(bd.value+'T12:00:00').getDay();
     if(d===1){warn.textContent='We are closed on Mondays. Please pick Tuesday to Sunday.';warn.classList.add('show');return false}
     warn.classList.remove('show');return true;
   }
-  bd.addEventListener('change',chk);
+  bd.addEventListener('change',chk);bgSel.addEventListener('change',chk);
   $('#bookForm').addEventListener('submit',function(e){
     e.preventDefault();
     var name=$('#bn').value.trim();
@@ -112,7 +122,7 @@
     if(!chk())return;
     var d=new Date(bd.value+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
     var occ=$('#bo').value,note=$('#bm').value.trim();
-    var msg='Hi Nifty! I would like to book a table.\n\nName: '+name+'\nGuests: '+$('#bg').value+'\nDate: '+d+'\nTime: '+bt.value+(occ?'\nOccasion: '+occ:'')+(note?'\nNotes: '+note:'')+'\n\nPlease confirm if you have space. Thank you!';
+    var msg='Hi Nifty! I would like to book a table.\n\nName: '+name+'\nGuests: '+$('#bg').value+'\nDate: '+d+'\nTime: '+bt.value+(occ?'\nOccasion: '+occ:'')+(note?'\nNotes: '+note:'')+(voucherText()?'\n\n'+voucherText():'')+'\n\nPlease confirm if you have space. Thank you!';
     window.open('https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg),'_blank','noopener');
   });
   $('#yr').textContent=new Date().getFullYear();

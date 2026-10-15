@@ -22,13 +22,16 @@ Edit the file, commit, push. Netlify redeploys automatically.
 | Opening hours | `index.html` (`#hours` table, FAQ, footer) and the `status()` function in `assets/js/main.js` (510 to 1260 minutes = 8:30am to 9pm, day 1 = Monday closed) |
 | Events and Nifty Mornings | `index.html`, the `#mornings` and `#events` sections |
 | Phone / WhatsApp number | `index.html` (`tel:` links) and `PHONE` in `assets/js/main.js` |
-| Colours and fonts | `:root` variables at the top of `assets/css/style.css` |
+| Colours and fonts | `:root` variables at the top of `assets/css/style.css` (black and gold theme; `--amber` is the gold) |
 | Photos | replace files in `assets/images/` (keep the file names, roughly 520px wide, JPEG) |
 
 To preview locally: `python3 -m http.server 8000` then open http://localhost:8000.
 
 ## Deploy on Netlify
 Import this repo. Build command: none. Publish directory: `.`
+
+## Weekend booking voucher
+Saturday and Sunday bookings need a KSh 1,000 per person voucher (redeemable, non-refundable). Copy is in `index.html` (booking section, Sundown band, FAQ) and the calculation is `voucherText()` in `assets/js/main.js`.
 
 ## Things to confirm with Nifty
 - 0115 435 374 is on WhatsApp (the booking form opens WhatsApp).
