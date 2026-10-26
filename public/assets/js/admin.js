@@ -1,4 +1,4 @@
-/* Staff page for the "Event of the week". Talks to /api/login and /api/event (Netlify functions). */
+/* Staff page for the "Event of the week". Talks to api/login and api/event (PHP on cPanel, or Netlify functions). */
 (function () {
   var $ = function (s) { return document.querySelector(s); };
   var KEY = 'nifty_admin_token';
@@ -23,9 +23,9 @@
     load();
   }
   function api(method, body) {
-    return fetch('/api/event', {
+    return fetch(NiftyEvent.api, {
       method: method,
-      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + token() },
+      headers: { 'content-type': 'application/json', authorization: 'Bearer ' + token(), 'x-nifty-token': token() },
       body: body ? JSON.stringify(body) : undefined
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (data) {
@@ -42,7 +42,7 @@
     var pw = $('#pw').value, btn = $('#loginBtn');
     if (!pw) { msg($('#loginMsg'), 'Please enter the password.', 'err'); return; }
     btn.disabled = true; btn.textContent = 'Checking…';
-    fetch('/api/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: pw }) })
+    fetch(NiftyEvent.login, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: pw }) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
         if (!res.ok) throw new Error(res.d.error || 'Could not log in.');
@@ -56,12 +56,12 @@
 
   // ---- load what is live ----
   function load() {
-    fetch('/api/event').then(function (r) { return r.json(); }).then(function (d) {
+    fetch(NiftyEvent.api).then(function (r) { return r.json(); }).then(function (d) {
       var ev = d && d.event; state.current = ev; state.image = null; state.hasImage = !!(ev && ev.imageVersion);
       $('#title').value = (ev && ev.title) || ''; $('#date').value = (ev && ev.date) || '';
       $('#time').value = (ev && ev.time) || ''; $('#desc').value = (ev && ev.description) || '';
       var drop = $('#drop'), old = drop.querySelector('img'); if (old) old.remove();
-      if (state.hasImage) { var im = document.createElement('img'); im.src = '/api/event?image=1&v=' + ev.imageVersion; im.alt = 'Current poster'; drop.prepend(im); drop.classList.add('has'); }
+      if (state.hasImage) { var im = document.createElement('img'); im.src = NiftyEvent.api + '?image=1&v=' + ev.imageVersion; im.alt = 'Current poster'; drop.prepend(im); drop.classList.add('has'); }
       else drop.classList.remove('has');
       var today = NiftyEvent.todayNairobi(), st = $('#liveStatus');
       if (!ev) st.textContent = 'No poster is up. The website is showing the usual Sundown Sessions section. Upload this week\'s poster below.';
@@ -115,7 +115,7 @@
     NiftyEvent.render(root, ev);
     var img = root.querySelector('[data-tw="img"]');
     if (state.image) img.src = state.image;
-    else if (state.hasImage && state.current) img.src = '/api/event?image=1&v=' + state.current.imageVersion;
+    else if (state.hasImage && state.current) img.src = NiftyEvent.api + '?image=1&v=' + state.current.imageVersion;
   }
   ['title', 'date', 'time', 'desc'].forEach(function (id) { $('#' + id).addEventListener('input', preview); });
 

@@ -13,6 +13,7 @@ public/                 the website. Only this folder is published.
   assets/js/event-render.js  shared by the site and the staff preview
   assets/js/admin.js    staff page logic
   assets/images/        site photos and logo
+alt-cpanel-php/         OPTIONAL PHP backend for cPanel hosting (read its README first; see PHP security note)
 netlify/functions/      serverless backend
   login.mjs             POST /api/login   password -> 12 hour session token (rate limited)
   event.mjs             GET /api/event    public; POST/DELETE need a valid token
@@ -55,3 +56,8 @@ With the staff area and poster backend: `npm install`, create a git-ignored `.en
 ## Things to confirm with Nifty
 - Menu and prices come from Nifty's A3 menu PDF (confirmed current 2026-10-15). Still to confirm: the Nifty Mornings offers (not on the PDF) and which dishes count as vegetarian (marked from the descriptions).
 - A photo of an on-menu pizza, and raw photos in general: the Instagram frames are only 512px wide.
+
+## Hosting note (cafenifty.com)
+The existing cafenifty.com WordPress site runs on a cPanel host (DNS: mailsafi.com, email on Google). The plan is to deploy this site on Netlify
+and point a subdomain (e.g. new.cafenifty.com, CNAME) at it, then later switch the `@` and `www` records. Do not change nameservers (email would break).
+Netlify keeps PHP out of the picture (see the PHP security note in `alt-cpanel-php/README.md`).

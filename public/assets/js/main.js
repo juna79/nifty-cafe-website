@@ -138,7 +138,7 @@
       var d=book.dataset.date;
       if(d){$('#bd').value=d;$('#bd').dispatchEvent(new Event('change'))}
     });
-    fetch('/api/event',{headers:{accept:'application/json'}})
+    fetch(NiftyEvent.api,{headers:{accept:'application/json'}})
       .then(function(r){return r.ok?r.json():null})
       .then(function(data){show(data&&data.event)})
       .catch(function(){show(null)});

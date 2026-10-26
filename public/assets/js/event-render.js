@@ -2,6 +2,9 @@
    Everything is written with textContent, never innerHTML, so staff text can't inject markup. */
 (function (w) {
   var PHONE = '254115435374';
+  // Site root = two levels above assets/js/event-render.js, so the site works at a domain root or in a subfolder
+  var ROOT = new URL('../../', document.currentScript.src).href;
+  var API = ROOT + 'api/event', LOGIN = ROOT + 'api/login';
 
   function todayNairobi() {
     return new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Nairobi' }).format(new Date()); // YYYY-MM-DD
@@ -52,7 +55,7 @@
     // media: photo if staff added one, otherwise a gold date block
     var img = q(root, 'img'), block = q(root, 'block');
     if (live && ev.imageVersion) {
-      img.src = '/api/event?image=1&v=' + ev.imageVersion;
+      img.src = API + '?image=1&v=' + ev.imageVersion;
       img.alt = (ev.title || 'Event of the week') + ' poster';
       img.hidden = false; block.hidden = true;
     } else if (!live && d.image) {
@@ -79,5 +82,5 @@
     root.setAttribute('data-state', live ? 'live' : 'default');
   }
 
-  w.NiftyEvent = { render: render, todayNairobi: todayNairobi };
+  w.NiftyEvent = { render: render, todayNairobi: todayNairobi, root: ROOT, api: API, login: LOGIN };
 })(window);

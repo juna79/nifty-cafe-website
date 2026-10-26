@@ -1,0 +1,35 @@
+# Apache settings for cPanel / shared hosting
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# Pass the Authorization header through on CGI/FastCGI hosts (the site also sends X-Nifty-Token as a fallback)
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# Friendly API URLs -> PHP files
+RewriteRule ^api/event/?$ api/event.php [L,QSA]
+RewriteRule ^api/login/?$ api/login.php [L]
+</IfModule>
+
+# Never serve config, helpers or hidden files directly
+<FilesMatch "^(config\.php|config\.sample\.php|lib\.php|\.env|\.htpasswd)$">
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order allow,deny
+Deny from all
+</IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+Header set X-Content-Type-Options "nosniff"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+<FilesMatch "\.(css|js|jpg|jpeg|png|webp|svg)$">
+Header set Cache-Control "public, max-age=0, must-revalidate"
+</FilesMatch>
+</IfModule>
+
+# Uncomment if the site is at the root of its own domain:
+# ErrorDocument 404 /404.html

@@ -2,3 +2,5 @@ node_modules/
 .env
 .netlify/
 .DS_Store
+alt-cpanel-php/api/config.php
+alt-cpanel-php/api/data/
