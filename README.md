@@ -16,18 +16,20 @@ public/                 the website. Only this folder is published.
 alt-cpanel-php/         OPTIONAL PHP backend for cPanel hosting (read its README first; see PHP security note)
 netlify/functions/      serverless backend
   login.mjs             POST /api/login   password -> 12 hour session token (rate limited)
-  event.mjs             GET /api/event    public; POST/DELETE need a valid token
+  event.mjs             GET /api/event    public (lists up to 3 events); POST/DELETE ?slot=1..3 need a valid token
 netlify/lib/auth.mjs    password check and token signing
 netlify.toml            publish folder, functions folder, headers
 ```
 
-## Staff: updating the event of the week
-1. Go to `yourwebsite/admin/` (there is a small lock "Admin" link top right of the site).
-2. Log in with the staff password.
-3. Choose this week's poster (it is resized automatically), optionally add a name, date, time and note, and press **Publish to website**.
-4. If you add a date, the poster comes down by itself after that day and the usual Saturday Sundown Sessions section returns. **Take poster down** does the same immediately.
+## Staff: updating the events of the week
+1. Go to `yourwebsite/admin/` (there is a small lock "Admin" link top right of the site) and log in with the staff password.
+2. Pick a tab: **Event 1, 2 or 3**. Most weeks one is enough. Only fill in Event 2 or 3 when there is more than one event. Empty or finished events do not show on the website.
+3. Choose the poster (it is resized automatically), optionally add a name, date, time and short note, and press **Publish to website**.
+4. **Remove poster (event is over)** takes that one event down immediately. If you give an event a date, it also comes down by itself after that day.
 
-Saturday and Sunday events automatically show the KSh 1,000 per person voucher note.
+How they look: one event shows as a big poster with text beside it. Two or three events sit **side by side** on a computer (stacked on phones), in date order. With no events live, the usual Saturday Sundown Sessions section shows.
+
+**Weekend booking note:** each event has a tickbox, "Show the weekend booking note under this event". Ticked shows the line "Weekend booking: KSh 1,000 per person voucher, redeemable on your bill, non-refundable." under that event. Unticked hides it. (Events saved before the tickbox existed keep the old automatic Saturday/Sunday rule until they are saved again.) The note in the booking section, FAQ and booking form is separate and always on.
 
 ## One-time Netlify setup (needed for the staff area)
 1. Deploy this repo from GitHub (Site configuration, Build and deploy). Functions do not run on drag-and-drop folder deploys.

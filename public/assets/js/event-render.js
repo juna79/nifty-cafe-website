@@ -30,14 +30,15 @@
   // data-tw="title|when|desc|details|kicker|dow|sub|img|book|wa" hooks inside root
   function q(root, k) { return root.querySelector('[data-tw="' + k + '"]'); }
 
-  function render(root, ev) {
+  function render(root, ev, opts) {
+    opts = opts || {};
     var fallback = root.getAttribute('data-fallback') ? JSON.parse(root.getAttribute('data-fallback')) : null;
     var live = ev && (ev.imageVersion || ev.title);
     var d = live ? ev : fallback;
     if (!d) return;
 
     setTitle(q(root, 'title'), d.title || 'This week at Nifty');
-    q(root, 'kicker').textContent = 'Event of the week';
+    q(root, 'kicker').textContent = opts.kicker || 'Event of the week';
     var when = live
       ? [d.date ? longDate(d.date) : '', d.time || ''].filter(Boolean).join(' · ')
       : d.when;
@@ -47,7 +48,8 @@
     q(root, 'desc').hidden = !d.description;
 
     var details = d.details || '';
-    var note = live && d.date && isWeekend(d.date) ? 'Weekend booking: KSh 1,000 per person voucher, redeemable on your bill, non-refundable.' : (live ? '' : d.note || '');
+    var wantNote = d.weekendNote === undefined ? !!(d.date && isWeekend(d.date)) : !!d.weekendNote;
+    var note = live && wantNote ? 'Weekend booking: KSh 1,000 per person voucher, redeemable on your bill, non-refundable.' : (live ? '' : d.note || '');
     var dEl = q(root, 'details');
     dEl.textContent = [details, note].filter(Boolean).join('  ·  ');
     dEl.hidden = !dEl.textContent;
@@ -55,7 +57,7 @@
     // media: photo if staff added one, otherwise a gold date block
     var img = q(root, 'img'), block = q(root, 'block');
     if (live && ev.imageVersion) {
-      img.src = API + '?image=1&v=' + ev.imageVersion;
+      img.src = API + '?image=1&slot=' + (ev.slot || 1) + '&v=' + ev.imageVersion;
       img.alt = (ev.title || 'Event of the week') + ' poster';
       img.hidden = false; block.hidden = true;
     } else if (!live && d.image) {

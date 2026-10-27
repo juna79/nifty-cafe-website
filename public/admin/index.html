@@ -37,12 +37,19 @@
 
   <!-- EDITOR -->
   <section id="editor" hidden>
-    <h1>Event of the <em>week</em></h1>
+    <h1>Events of the <em>week</em></h1>
     <p class="a-sub" id="liveStatus">Checking what is live…</p>
+
+    <div class="slots" id="slots" role="tablist" aria-label="Which event">
+      <button type="button" class="slot on" role="tab" data-slot="1"><b>Event 1</b><small>…</small></button>
+      <button type="button" class="slot" role="tab" data-slot="2"><b>Event 2</b><small>…</small></button>
+      <button type="button" class="slot" role="tab" data-slot="3"><b>Event 3</b><small>…</small></button>
+    </div>
+    <p class="hint slots-hint">Most weeks one event is enough. Only fill in Event 2 or 3 when there is more than one. Empty or finished events don't show on the website.</p>
 
     <div class="a-grid">
       <form class="a-card" id="eventForm" novalidate>
-        <h2>1. This week's poster</h2>
+        <h2>1. Poster for <span id="slotName">Event 1</span></h2>
         <label class="drop" id="drop" for="file">
           <input id="file" type="file" accept="image/jpeg,image/png,image/webp">
           <span class="drop-big">Tap to choose a poster</span>
@@ -58,19 +65,21 @@
         </div>
         <p class="hint">If you add a date, the poster comes down by itself after that day and the usual Saturday Sundown Sessions section returns. Leave the date empty to keep the poster up until you change it.</p>
         <div class="f"><label for="desc">Short note</label><textarea id="desc" maxlength="300" placeholder="Live music, wine and the view. Booking recommended."></textarea></div>
+        <label class="chk"><input type="checkbox" id="weekendNote"> <span>Show the weekend booking note under this event:<br><em>Weekend booking: KSh 1,000 per person voucher, redeemable on your bill, non-refundable.</em></span></label>
 
         <p class="a-msg" id="saveMsg" role="status" hidden></p>
         <div class="a-actions">
           <button class="btn btn-primary" type="submit" id="saveBtn">Publish to website</button>
-          <button class="btn btn-ghost" type="button" id="clearBtn">Take poster down</button>
+          <button class="btn btn-ghost danger" type="button" id="clearBtn">Remove poster (event is over)</button>
         </div>
       </form>
 
       <aside>
         <h2 class="a-prev-h">Preview</h2>
-        <div class="a-preview">
-          <section class="thisweek" id="preview" data-fallback='{"title":"Sundown Sessions","kicker":"Event of the week","when":"Every Saturday · from 5pm","description":"Live acoustic sets, wine in hand, and the hills turning gold.","dow":"Sat","sub":"From 5pm"}'>
-            <div class="tw">
+        <div class="a-preview" id="previewBox">
+          <p class="a-empty" id="previewEmpty" hidden>This event is empty, so nothing from it shows on the website. Add a poster to see a preview.</p>
+          <section class="thisweek">
+            <div class="tw" id="preview" data-fallback='{"title":"Sundown Sessions","kicker":"Event of the week","when":"Every Saturday · from 5pm","description":"Live acoustic sets, wine in hand, and the hills turning gold.","dow":"Sat","sub":"From 5pm"}'>
               <div class="tw-media"><img data-tw="img" alt="" hidden><div class="tw-block" data-tw="block"><span class="tw-dow" data-tw="dow">Sat</span><span class="tw-sub" data-tw="sub">From 5pm</span></div></div>
               <div class="tw-body">
                 <p class="eyebrow" data-tw="kicker">Event of the week</p>

@@ -4,6 +4,11 @@ import { verifyRequest, json } from "../lib/auth.mjs";
 export const config = { path: "/api/event" };
 
 const MAX_IMAGE_BYTES = 3_000_000; // posters are resized to ~1600px in the browser first
+const MAX_SLOTS = 3;               // up to 3 events at once (most weeks there will be 1 or 2)
+
+// Slot 1 keeps the original storage keys so an existing poster keeps working untouched.
+const eventKey = (slot) => (slot === 1 ? "current" : `current-${slot}`);
+const imageKey = (slot) => (slot === 1 ? "image" : `image-${slot}`);
 
 function clean(v, max) {
   return String(v ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max);
@@ -21,6 +26,10 @@ function sniffImage(buf) {
   if (b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 && b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50) return "image/webp";
   return null;
 }
+function parseSlot(v) {
+  const n = Number(v ?? 1);
+  return Number.isInteger(n) && n >= 1 && n <= MAX_SLOTS ? n : null;
+}
 
 export default async (req) => {
   const store = getStore("event");
@@ -29,7 +38,9 @@ export default async (req) => {
   // ---- public: read ----
   if (req.method === "GET") {
     if (url.searchParams.get("image")) {
-      const img = await store.getWithMetadata("image", { type: "arrayBuffer" }).catch(() => null);
+      const slot = parseSlot(url.searchParams.get("slot"));
+      if (!slot) return new Response("Not found", { status: 404 });
+      const img = await store.getWithMetadata(imageKey(slot), { type: "arrayBuffer" }).catch(() => null);
       if (!img) return new Response("Not found", { status: 404 });
       return new Response(img.data, {
         headers: {
@@ -38,17 +49,26 @@ export default async (req) => {
         },
       });
     }
-    const event = await store.get("current", { type: "json" }).catch(() => null);
-    return json({ event: event || null }, 200, { "cache-control": "public, max-age=0, must-revalidate" });
+    const events = [];
+    for (let slot = 1; slot <= MAX_SLOTS; slot++) {
+      const ev = await store.get(eventKey(slot), { type: "json" }).catch(() => null);
+      if (ev) events.push({ slot, ...ev });
+    }
+    // `event` (slot 1) is kept for older pages; `events` lists every event that is set
+    const first = events.find((e) => e.slot === 1) || null;
+    return json({ event: first, events }, 200, { "cache-control": "public, max-age=0, must-revalidate" });
   }
 
   // ---- staff only: write ----
   if (!verifyRequest(req)) return json({ error: "Please log in again." }, 401);
 
+  const slot = parseSlot(url.searchParams.get("slot"));
+  if (!slot) return json({ error: "Unknown event slot." }, 400);
+
   if (req.method === "DELETE") {
-    await store.delete("current");
-    await store.delete("image");
-    return json({ ok: true, event: null });
+    await store.delete(eventKey(slot));
+    await store.delete(imageKey(slot));
+    return json({ ok: true, slot, event: null });
   }
 
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
@@ -60,13 +80,14 @@ export default async (req) => {
   const date = clean(b.date, 10);          // optional: the poster hides itself after this date
   const time = clean(b.time, 40);
   const description = clean(b.description, 300);
+  const weekendNote = Boolean(b.weekendNote); // show the weekend booking voucher line under this event
   if (date && !validDate(date)) return json({ error: "That date is not valid." }, 400);
 
-  const prev = (await store.get("current", { type: "json" }).catch(() => null)) || {};
+  const prev = (await store.get(eventKey(slot), { type: "json" }).catch(() => null)) || {};
   let imageVersion = prev.imageVersion || null;
 
   if (b.removeImage) {
-    await store.delete("image");
+    await store.delete(imageKey(slot));
     imageVersion = null;
   }
   if (typeof b.image === "string" && b.image) {
@@ -76,13 +97,13 @@ export default async (req) => {
     if (buf.length > MAX_IMAGE_BYTES) return json({ error: "Image is too large. Try a smaller photo." }, 413);
     const type = sniffImage(buf);
     if (!type) return json({ error: "That file is not a valid image." }, 400);
-    await store.set("image", buf, { metadata: { contentType: type } });
+    await store.set(imageKey(slot), buf, { metadata: { contentType: type } });
     imageVersion = Date.now();
   }
 
   if (!imageVersion) return json({ error: "Please upload the event poster." }, 400);
 
-  const event = { title, date, time, description, imageVersion, updatedAt: new Date().toISOString() };
-  await store.setJSON("current", event);
-  return json({ ok: true, event });
+  const event = { title, date, time, description, weekendNote, imageVersion, updatedAt: new Date().toISOString() };
+  await store.setJSON(eventKey(slot), event);
+  return json({ ok: true, event: { slot, ...event } });
 };

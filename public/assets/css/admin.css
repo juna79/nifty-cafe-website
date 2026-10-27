@@ -60,3 +60,25 @@ body.admin{background:var(--ink);color:var(--cream);min-height:100vh}
   .a-bar-r{gap:.9rem}
   .a-link{white-space:nowrap;font-size:.82rem}
 }
+
+/* event tabs */
+.slots{display:flex;gap:.6rem;flex-wrap:wrap;margin:0 0 .6rem}
+.slot{display:grid;gap:.1rem;text-align:left;background:rgba(244,236,219,.06);border:1.5px solid var(--line);color:var(--cream);border-radius:14px;padding:.7rem 1.1rem;cursor:pointer;font-family:var(--sans);min-width:118px;transition:.2s}
+.slot b{font-size:.95rem}
+.slot small{font-size:.74rem;opacity:.7}
+.slot:hover{border-color:var(--amber)}
+.slot.on{background:var(--amber);color:#1a1405;border-color:var(--amber)}
+.slot[data-st=live]:not(.on) small{color:#7fe0a0;opacity:1}
+.slot.on small{opacity:.8}
+.slots-hint{color:rgba(244,236,219,.6);margin:0 0 1.6rem}
+
+.a-card label.chk{display:flex;gap:.7rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:600;font-size:.9rem;color:var(--ink);margin:.2rem 0 1rem;cursor:pointer;line-height:1.4}
+.a-card label.chk em{font-style:normal;font-weight:500;opacity:.65;font-size:.84rem}
+.a-card input[type=checkbox]{width:auto;margin-top:.2rem;accent-color:#8f6d14;flex:none}
+
+.a-actions .btn.danger{border-color:#a8332a;color:#a8332a}
+.a-actions .btn.danger:hover{background:#a8332a;color:#fff;border-color:#a8332a}
+.a-actions .btn[disabled]{opacity:.4;pointer-events:none}
+
+.a-empty{padding:2rem 1.4rem;color:rgba(244,236,219,.7);font-size:.95rem;text-align:center}
+.a-preview{pointer-events:auto}

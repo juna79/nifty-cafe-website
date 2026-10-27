@@ -125,22 +125,38 @@
     var msg='Hi Nifty! I would like to book a table.\n\nName: '+name+'\nGuests: '+$('#bg').value+'\nDate: '+d+'\nTime: '+bt.value+(occ?'\nOccasion: '+occ:'')+(note?'\nNotes: '+note:'')+(voucherText()?'\n\n'+voucherText():'')+'\n\nPlease confirm if you have space. Thank you!';
     window.open('https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg),'_blank','noopener');
   });
-  // ---- Event of the week: staff-editable at /admin. Falls back to the default if none is set,
-  // the date has passed, or the request fails (e.g. a plain file preview).
+  // ---- Events of the week: staff-editable at /admin (up to 3 posters). Nothing extra shows when a slot is
+  // empty or its date has passed. If no event is live at all, the usual Sundown Sessions section shows.
   (function(){
-    var root=$('#thisweek');if(!root||!window.NiftyEvent)return;
-    function show(ev){
-      var live=ev&&(!ev.date||ev.date>=NiftyEvent.todayNairobi())?ev:null;
-      NiftyEvent.render(root,live);
+    var list=$('#twList'),first=list&&list.querySelector('.tw');if(!first||!window.NiftyEvent)return;
+    var extras=[];
+    function wireBook(sec){
+      var b=sec.querySelector('[data-tw="book"]');
+      if(b)b.addEventListener('click',function(){
+        var d=b.dataset.date;
+        if(d){$('#bd').value=d;$('#bd').dispatchEvent(new Event('change'))}
+      });
     }
-    var book=root.querySelector('[data-tw="book"]');
-    if(book)book.addEventListener('click',function(){
-      var d=book.dataset.date;
-      if(d){$('#bd').value=d;$('#bd').dispatchEvent(new Event('change'))}
-    });
+    wireBook(first);
+    function show(items){
+      var today=NiftyEvent.todayNairobi();
+      var live=(items||[]).filter(function(e){return e&&(e.imageVersion||e.title)&&(!e.date||e.date>=today)});
+      live.sort(function(a,b){return (a.date||'9999').localeCompare(b.date||'9999')||(a.slot||1)-(b.slot||1)});
+      extras.forEach(function(s){s.remove()});extras=[];
+      list.classList.toggle('multi',live.length>1);
+      list.style.setProperty('--n',Math.max(live.length,1));
+      if(!live.length){NiftyEvent.render(first,null);return}
+      NiftyEvent.render(first,live[0]);
+      live.slice(1).forEach(function(ev){
+        var card=first.cloneNode(true);
+        NiftyEvent.render(card,ev);
+        wireBook(card);
+        list.appendChild(card);extras.push(card);
+      });
+    }
     fetch(NiftyEvent.api,{headers:{accept:'application/json'}})
       .then(function(r){return r.ok?r.json():null})
-      .then(function(data){show(data&&data.event)})
+      .then(function(data){show(data&&(data.events||(data.event?[data.event]:[])))})
       .catch(function(){show(null)});
   })();
 

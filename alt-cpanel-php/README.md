@@ -8,6 +8,8 @@ Affected: PHP **older than 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12**. Do not deploy th
 that the PHP version used for the site is patched (cPanel: Software, MultiPHP Manager shows the major version; ask the host for the exact patch level).
 If the host's PHP is not patched, the host itself is at risk whatever site is on it, so raise it with them regardless.
 
+> **Note:** this PHP version only supports ONE event (no Event 2/3 tabs, no weekend-note tickbox). The Netlify functions are the maintained version.
+
 ## Contents
 - `api/event.php`, `api/login.php`, `api/lib.php`: same behaviour as the Netlify functions (public read, password login with lockout, signed 12h token, validated poster upload stored outside the web root where possible). PHP 7.2+ compatible.
 - `api/config.sample.php`: copy to `api/config.php` on the server and set a strong password (never commit `config.php`).

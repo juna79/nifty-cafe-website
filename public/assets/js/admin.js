@@ -1,8 +1,10 @@
-/* Staff page for the "Event of the week". Talks to api/login and api/event (PHP on cPanel, or Netlify functions). */
+/* Staff page for the "Event of the week". Talks to api/login and api/event (Netlify functions).
+   Up to 3 events can be live at once (tabs "Event 1/2/3"); empty or finished ones simply don't show on the website. */
 (function () {
   var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
   var KEY = 'nifty_admin_token';
-  var state = { image: null, hasImage: false, current: null };
+  var state = { slot: 1, events: {}, image: null, hasImage: false, current: null };
 
   var loginEl = $('#login'), editorEl = $('#editor'), logoutBtn = $('#logout');
 
@@ -22,8 +24,9 @@
     loginEl.hidden = true; editorEl.hidden = false; logoutBtn.hidden = false;
     load();
   }
+  function imgUrl(slot, version) { return NiftyEvent.api + '?image=1&slot=' + slot + '&v=' + version; }
   function api(method, body) {
-    return fetch(NiftyEvent.api, {
+    return fetch(NiftyEvent.api + '?slot=' + state.slot, {
       method: method,
       headers: { 'content-type': 'application/json', authorization: 'Bearer ' + token(), 'x-nifty-token': token() },
       body: body ? JSON.stringify(body) : undefined
@@ -54,22 +57,60 @@
   });
   logoutBtn.addEventListener('click', function () { setToken(''); showLogin(''); });
 
-  // ---- load what is live ----
+  // ---- what is live, per slot ----
+  function slotStatus(slot) {
+    var ev = state.events[slot], today = NiftyEvent.todayNairobi();
+    if (!ev) return 'empty';
+    if (ev.date && ev.date < today) return 'ended';
+    return 'live';
+  }
+  function updateTabs() {
+    $$('#slots .slot').forEach(function (b) {
+      var s = +b.dataset.slot, st = slotStatus(s), ev = state.events[s];
+      b.classList.toggle('on', s === state.slot);
+      b.setAttribute('aria-selected', s === state.slot);
+      b.setAttribute('data-st', st);
+      b.querySelector('small').textContent = st === 'live' ? 'On the website' : st === 'ended' ? 'Finished' : 'Empty';
+      b.title = ev && ev.title ? ev.title : '';
+    });
+  }
+  function updateStatusLine() {
+    var live = [1, 2, 3].filter(function (s) { return slotStatus(s) === 'live'; });
+    var st = $('#liveStatus');
+    if (!live.length) st.textContent = 'No event poster is live. The website is showing the usual Sundown Sessions section. Choose an event tab below and upload a poster.';
+    else st.textContent = 'On the website now: ' + live.map(function (s) { var e = state.events[s]; return 'Event ' + s + (e.title ? ' (' + e.title + ')' : ''); }).join(', ') + '. Empty or finished events don\'t show.';
+  }
+
+  function isWeekend(iso) { if (!iso) return false; var d = new Date(iso + 'T12:00:00Z').getUTCDay(); return d === 0 || d === 6; }
+  function fillForm() {
+    var ev = state.events[state.slot] || null;
+    state.current = ev; state.image = null; state.hasImage = !!(ev && ev.imageVersion);
+    $('#title').value = (ev && ev.title) || ''; $('#date').value = (ev && ev.date) || '';
+    $('#time').value = (ev && ev.time) || ''; $('#desc').value = (ev && ev.description) || '';
+    // older events saved before the tickbox existed used the automatic Saturday/Sunday rule
+    $('#weekendNote').checked = ev ? (ev.weekendNote === undefined ? isWeekend(ev.date) : !!ev.weekendNote) : false;
+    $('#file').value = '';
+    var drop = $('#drop'), old = drop.querySelector('img'); if (old) old.remove();
+    if (state.hasImage) { var im = document.createElement('img'); im.src = imgUrl(state.slot, ev.imageVersion); im.alt = 'Current poster'; drop.prepend(im); drop.classList.add('has'); }
+    else drop.classList.remove('has');
+    msg($('#imgMsg'), ''); msg($('#saveMsg'), '');
+    $('#slotName').textContent = 'Event ' + state.slot;
+    $('#clearBtn').disabled = !ev; // nothing to remove when this event is empty
+    updateTabs(); updateStatusLine(); preview();
+  }
+
   function load() {
     fetch(NiftyEvent.api).then(function (r) { return r.json(); }).then(function (d) {
-      var ev = d && d.event; state.current = ev; state.image = null; state.hasImage = !!(ev && ev.imageVersion);
-      $('#title').value = (ev && ev.title) || ''; $('#date').value = (ev && ev.date) || '';
-      $('#time').value = (ev && ev.time) || ''; $('#desc').value = (ev && ev.description) || '';
-      var drop = $('#drop'), old = drop.querySelector('img'); if (old) old.remove();
-      if (state.hasImage) { var im = document.createElement('img'); im.src = NiftyEvent.api + '?image=1&v=' + ev.imageVersion; im.alt = 'Current poster'; drop.prepend(im); drop.classList.add('has'); }
-      else drop.classList.remove('has');
-      var today = NiftyEvent.todayNairobi(), st = $('#liveStatus');
-      if (!ev) st.textContent = 'No poster is up. The website is showing the usual Sundown Sessions section. Upload this week\'s poster below.';
-      else if (ev.date && ev.date < today) st.textContent = 'The poster for ' + ev.date + ' has finished, so the website is back to the usual Sundown Sessions section. Upload this week\'s poster below.';
-      else st.textContent = 'Live on the website now' + (ev.title ? ': ' + ev.title : '') + '. Upload a new poster to replace it.';
-      preview();
-    }).catch(function () { $('#liveStatus').textContent = 'Could not load the current event.'; });
+      var list = (d && (d.events || (d.event ? [Object.assign({ slot: 1 }, d.event)] : []))) || [];
+      state.events = {};
+      list.forEach(function (e) { state.events[e.slot || 1] = e; });
+      fillForm();
+    }).catch(function () { $('#liveStatus').textContent = 'Could not load the current events.'; });
   }
+
+  $$('#slots .slot').forEach(function (b) {
+    b.addEventListener('click', function () { state.slot = +b.dataset.slot; fillForm(); });
+  });
 
   // ---- image: choose, resize, preview ----
   function resize(file) {
@@ -109,36 +150,39 @@
   function preview() {
     var root = $('#preview'), has = state.image || state.hasImage;
     var ev = (has || $('#title').value.trim()) ? {
-      title: $('#title').value.trim(), date: $('#date').value, time: $('#time').value.trim(),
-      description: $('#desc').value.trim(), imageVersion: has ? 1 : null
+      slot: state.slot, title: $('#title').value.trim(), date: $('#date').value, time: $('#time').value.trim(),
+      description: $('#desc').value.trim(), weekendNote: $('#weekendNote').checked, imageVersion: has ? 1 : null
     } : null;
     NiftyEvent.render(root, ev);
+    $('#previewEmpty').hidden = !!ev; root.parentElement.hidden = !ev;
     var img = root.querySelector('[data-tw="img"]');
     if (state.image) img.src = state.image;
-    else if (state.hasImage && state.current) img.src = NiftyEvent.api + '?image=1&v=' + state.current.imageVersion;
+    else if (state.hasImage && state.current) img.src = imgUrl(state.slot, state.current.imageVersion);
   }
-  ['title', 'date', 'time', 'desc'].forEach(function (id) { $('#' + id).addEventListener('input', preview); });
+  ['title', 'date', 'time', 'desc', 'weekendNote'].forEach(function (id) { $('#' + id).addEventListener('input', preview); });
 
   // ---- publish / take down ----
   $('#eventForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var m = $('#saveMsg'), btn = $('#saveBtn');
-    if (!state.image && !state.hasImage) { msg(m, 'Please choose this week\'s poster first.', 'err'); return; }
+    if (!state.image && !state.hasImage) { msg(m, 'Please choose this event\'s poster first.', 'err'); return; }
     btn.disabled = true; btn.textContent = 'Publishing…'; msg(m, '');
     api('POST', {
       title: $('#title').value, date: $('#date').value, time: $('#time').value,
-      description: $('#desc').value, image: state.image || undefined
+      description: $('#desc').value, weekendNote: $('#weekendNote').checked, image: state.image || undefined
     }).then(function () {
-      msg(m, 'Published. The new poster is live on the website now.', 'ok'); msg($('#imgMsg'), '');
       load();
+      setTimeout(function () { msg($('#saveMsg'), 'Published. Event ' + state.slot + ' is live on the website now.', 'ok'); }, 400);
     }).catch(function (err) { if (err.message !== 'auth') msg(m, err.message, 'err'); })
       .then(function () { btn.disabled = false; btn.textContent = 'Publish to website'; });
   });
   $('#clearBtn').addEventListener('click', function () {
-    if (!state.hasImage && !state.current) { msg($('#saveMsg'), 'There is no poster up right now.'); return; }
-    if (!confirm('Take the poster down? The website will go back to the usual Sundown Sessions section.')) return;
-    api('DELETE').then(function () { msg($('#saveMsg'), 'Poster taken down. The website is back to its usual section.', 'ok'); load(); })
-      .catch(function (err) { if (err.message !== 'auth') msg($('#saveMsg'), err.message, 'err'); });
+    if (!state.hasImage && !state.current) { msg($('#saveMsg'), 'Event ' + state.slot + ' is already empty.'); return; }
+    if (!confirm('Remove the poster for Event ' + state.slot + ' from the website? The other events stay as they are.')) return;
+    api('DELETE').then(function () {
+      load();
+      setTimeout(function () { msg($('#saveMsg'), 'Event ' + state.slot + ' removed from the website.', 'ok'); }, 400);
+    }).catch(function (err) { if (err.message !== 'auth') msg($('#saveMsg'), err.message, 'err'); });
   });
 
   if (token()) showEditor(); else showLogin('');

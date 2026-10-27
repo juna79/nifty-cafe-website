@@ -458,7 +458,7 @@ footer{background:var(--forest);padding:5rem 0 6.5rem;border-top:1px solid var(-
 .tw-desc{font-size:1.08rem;color:rgba(244,236,219,.8);max-width:52ch;margin-bottom:1rem}
 .tw-details{font-size:.9rem;color:rgba(244,236,219,.7);border-left:3px solid var(--amber);padding-left:.9rem;max-width:52ch;margin-bottom:1.6rem}
 .tw-desc[hidden],.tw-details[hidden]{display:none}
-.thisweek[data-state=live] .tw-media{border-width:2px}
+.tw[data-state=live] .tw-media{border-width:2px}
 @media (max-width:980px){
   .thisweek{padding:4.5rem 0 3rem}
   .tw{grid-template-columns:1fr;gap:2rem}
@@ -466,6 +466,16 @@ footer{background:var(--forest);padding:5rem 0 6.5rem;border-top:1px solid var(-
 }
 
 /* when staff upload a poster: show it whole (never cropped) so its text stays readable */
-.thisweek[data-state=live] .tw-media{aspect-ratio:auto;background:none;border:0;box-shadow:none;border-radius:20px;max-width:480px;overflow:visible}
-.thisweek[data-state=live] .tw-media img{height:auto;border-radius:20px;border:1px solid var(--amber);box-shadow:0 40px 80px -30px rgba(0,0,0,.85)}
-@media (max-width:980px){.thisweek[data-state=live] .tw-media{max-width:420px;aspect-ratio:auto;margin-inline:auto}}
+.tw[data-state=live] .tw-media{aspect-ratio:auto;background:none;border:0;box-shadow:none;border-radius:20px;max-width:480px;overflow:visible}
+.tw[data-state=live] .tw-media img{height:auto;border-radius:20px;border:1px solid var(--amber);box-shadow:0 40px 80px -30px rgba(0,0,0,.85)}
+@media (max-width:980px){.tw[data-state=live] .tw-media{max-width:420px;aspect-ratio:auto;margin-inline:auto}}
+
+
+/* several events at once: a row of cards on wide screens, stacked on phones */
+.tw-list{display:grid;gap:3rem}
+.tw-list.multi{grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:2.5rem;align-items:start}
+.tw-list.multi .tw{grid-template-columns:1fr;gap:1.4rem;align-content:start}
+.tw-list.multi .tw[data-state=live] .tw-media{max-width:none;margin-inline:0}
+.tw-list.multi .tw-body h2{font-size:clamp(1.9rem,2.8vw,2.7rem);margin:.6rem 0 .8rem}
+.tw-list.multi .tw-when{font-size:1.2rem}
+@media (max-width:980px){.tw-list.multi{grid-template-columns:1fr;gap:3rem}}
