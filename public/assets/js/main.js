@@ -147,6 +147,8 @@
       list.style.setProperty('--n',Math.max(live.length,1));
       if(!live.length){NiftyEvent.render(first,null);return}
       NiftyEvent.render(first,live[0]);
+      // event posters are important info: show them straight away instead of waiting for the scroll animation
+      first.querySelectorAll('.rv').forEach(function(e){e.classList.add('in')});
       live.slice(1).forEach(function(ev){
         var card=first.cloneNode(true);
         // added after page load, so the scroll-reveal observer never sees it: show it straight away
