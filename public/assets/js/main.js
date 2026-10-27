@@ -149,6 +149,8 @@
       NiftyEvent.render(first,live[0]);
       live.slice(1).forEach(function(ev){
         var card=first.cloneNode(true);
+        // added after page load, so the scroll-reveal observer never sees it: show it straight away
+        card.querySelectorAll('.rv').forEach(function(e){e.classList.add('in')});
         NiftyEvent.render(card,ev);
         wireBook(card);
         list.appendChild(card);extras.push(card);
