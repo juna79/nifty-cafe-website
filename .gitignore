@@ -4,3 +4,5 @@ node_modules/
 .DS_Store
 alt-cpanel-php/api/config.php
 alt-cpanel-php/api/data/
+Invoice/
+nifty-raw-photos/

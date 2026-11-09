@@ -197,6 +197,7 @@ dialog.lb::backdrop{background:rgba(0,0,0,.94);backdrop-filter:blur(8px)}
 .form>p{font-size:.92rem;color:rgba(10,10,10,.62);margin-bottom:1.6rem}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .fld{display:grid;gap:.35rem;margin-bottom:1rem}
+.fld[hidden]{display:none}
 .fld label{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(10,10,10,.65)}
 .fld input,.fld select,.fld textarea{background:#fff;border:1.5px solid rgba(10,10,10,.16);border-radius:12px;padding:.8rem 1rem;width:100%;transition:border-color .2s,box-shadow .2s}
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:0;border-color:var(--leaf);box-shadow:0 0 0 4px rgba(212,169,79,.15)}

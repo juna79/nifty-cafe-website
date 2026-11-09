@@ -115,13 +115,17 @@
     warn.classList.remove('show');return true;
   }
   bd.addEventListener('change',chk);bgSel.addEventListener('change',chk);
+  $('#bo').addEventListener('change',function(){
+    var other=this.value==='__other',w=$('#boOtherWrap');
+    w.hidden=!other;if(other)$('#boOther').focus();
+  });
   $('#bookForm').addEventListener('submit',function(e){
     e.preventDefault();
     var name=$('#bn').value.trim();
     if(!name||!bd.value){warn.textContent='Please add your name and a date.';warn.classList.add('show');return}
     if(!chk())return;
     var d=new Date(bd.value+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
-    var occ=$('#bo').value,note=$('#bm').value.trim();
+    var occ=$('#bo').value==='__other'?$('#boOther').value.trim():$('#bo').value,note=$('#bm').value.trim();
     var msg='Hi Nifty! I would like to book a table.\n\nName: '+name+'\nGuests: '+$('#bg').value+'\nDate: '+d+'\nTime: '+bt.value+(occ?'\nOccasion: '+occ:'')+(note?'\nNotes: '+note:'')+(voucherText()?'\n\n'+voucherText():'')+'\n\nPlease confirm if you have space. Thank you!';
     window.open('https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg),'_blank','noopener');
   });
